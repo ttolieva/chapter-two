@@ -52,7 +52,7 @@
   <div class="foot">chapter two</div>
 </main>
 <script>
-  const target = new Date(2026, 10, 20, 0, 0, 0);
+  const target = new Date(Date.UTC(2026, 10, 20, 15, 0, 0)); // 20.11 17:00 Калининград
   const pad = n => String(n).padStart(2, '0');
   function tick() {
     const diff = target - new Date();
