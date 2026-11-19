@@ -100,6 +100,19 @@ section{position:relative;padding:64px 22px}
 .h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:38px;text-align:center;line-height:1.05}
 .sub{text-align:center;font-family:'Caveat',cursive;font-size:22px;color:var(--soft);margin-top:4px}
 
+
+/* ---------- потри — появится ---------- */
+.scratch-sec{display:flex;flex-direction:column;align-items:center}
+.scard{position:relative;width:min(330px,100%);margin:34px auto 0;background:#fff;padding:14px 14px 56px;transform:rotate(-1.5deg);
+  box-shadow:0 22px 30px -18px rgba(90,58,46,.45),0 1px 3px rgba(90,58,46,.12)}
+.scard .tape{top:-12px;left:50%;margin-left:-52px;transform:rotate(2deg)}
+.sframe{position:relative;aspect-ratio:480/352;overflow:hidden;background:#EAD9D3}
+.sframe img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity 1.2s ease,transform 3.4s ease-out}
+.sframe img.on{opacity:1;transform:scale(1)}
+.sframe canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:pointer;transition:opacity .8s ease}
+.sframe canvas.gone{opacity:0;pointer-events:none}
+.scard figcaption{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:'Caveat',cursive;font-size:26px}
+
 /* ---------- счётчик ---------- */
 .together{display:flex;flex-direction:column;align-items:center}
 .bigtag{position:relative;margin-top:30px;width:300px;padding:30px 22px 26px 46px;background:var(--kraft) var(--grain);
@@ -184,6 +197,18 @@ section{position:relative;padding:64px 22px}
       </div>
     </section>
 
+    <!-- потри — появится -->
+    <section class="roses scratch-sec">
+      <figure class="scard reveal">
+        <span class="tape"></span>
+        <div class="sframe" id="sframe">
+          <img src="m1.jpg" alt="" class="on"><img src="m2.jpg" alt=""><img src="m3.jpg" alt="">
+          <canvas id="foil"></canvas>
+        </div>
+        <figcaption id="scap">потри пальцем ♡</figcaption>
+      </figure>
+    </section>
+
     <footer class="final gingham">
       <div class="hand reveal">продолжение следует…</div>
       <div class="h">♡</div>
@@ -262,6 +287,50 @@ if (new Date() < OPEN && !preview) {
     }, 1900);
   };
   env.addEventListener('click', open);
+
+
+  // потри — появится
+  const cv = document.getElementById('foil'), fr = document.getElementById('sframe');
+  let ctx2, ready = false, done = false, last = null, moves = 0;
+  const paint = () => {
+    const w = fr.clientWidth, h = fr.clientHeight, dpr = Math.min(3, devicePixelRatio || 1);
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    ctx2 = cv.getContext('2d'); ctx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const g = ctx2.createLinearGradient(0, 0, w, h);
+    g.addColorStop(0, '#F3C9D2'); g.addColorStop(.45, '#E9AEBC'); g.addColorStop(.55, '#F6D6DD'); g.addColorStop(1, '#DFA0B0');
+    ctx2.fillStyle = g; ctx2.fillRect(0, 0, w, h);
+    ctx2.fillStyle = 'rgba(255,255,255,.35)'; ctx2.font = '16px serif';
+    for (let y = 14; y < h; y += 30) for (let x = (y / 30 % 2) * 15 + 10; x < w; x += 30) ctx2.fillText('♡', x, y);
+    ctx2.fillStyle = 'rgba(255,255,255,.18)';
+    for (let i = 0; i < 900; i++) ctx2.fillRect(Math.random() * w, Math.random() * h, 1, 1);
+    ctx2.fillStyle = '#7A4A45'; ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
+    ctx2.font = '600 34px Caveat, cursive'; ctx2.fillText('потри ♡', w / 2, h / 2);
+    ready = true;
+  };
+  const prepare = () => (document.fonts ? document.fonts.load('600 34px Caveat') : Promise.resolve()).then(paint);
+  const scratch = (x, y) => {
+    ctx2.globalCompositeOperation = 'destination-out'; ctx2.lineCap = ctx2.lineJoin = 'round'; ctx2.lineWidth = 46;
+    ctx2.beginPath(); ctx2.moveTo(last ? last[0] : x, last ? last[1] : y); ctx2.lineTo(x, y); ctx2.stroke();
+    last = [x, y];
+    if (++moves % 8 === 0) check();
+  };
+  const check = () => {
+    const d = ctx2.getImageData(0, 0, cv.width, cv.height).data; let clear = 0, n = 0;
+    for (let i = 3; i < d.length; i += 4 * 24) { n++; if (d[i] < 40) clear++; }
+    if (clear / n > .55) reveal();
+  };
+  const imgs = fr.querySelectorAll('img'); let k = 0;
+  const reveal = () => {
+    if (done) return; done = true; cv.classList.add('gone');
+    document.getElementById('scap').textContent = 'это мы ♡';
+    setInterval(() => { imgs[k].classList.remove('on'); k = (k + 1) % imgs.length; imgs[k].classList.add('on'); }, 3000);
+  };
+  const pos = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  cv.addEventListener('pointerdown', e => { if (!ready) return; cv.setPointerCapture(e.pointerId); last = null; scratch(...pos(e)); });
+  cv.addEventListener('pointermove', e => { if (!ready || !cv.hasPointerCapture(e.pointerId)) return; scratch(...pos(e)); });
+  cv.addEventListener('pointerup', () => { last = null; if (ready && !done) check(); });
+  const sio = new IntersectionObserver(es => { if (es[0].isIntersecting) { prepare(); sio.disconnect(); } });
+  sio.observe(fr);
 
   const tick = () => {
     const s = Math.floor((new Date() - START)/1000);
