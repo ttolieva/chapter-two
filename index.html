@@ -8,66 +8,243 @@
 <title>♡</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#FBF6F1; --choc:#5A3A2E; --soft:#9C7B6E; --pink:#F2C6CF; --pink-deep:#E7A4B2; }
-  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-  html, body { height:100%; }
-  body {
-    min-height:100dvh; background:var(--bg); color:var(--choc);
-    font-family:'Manrope', -apple-system, sans-serif;
-    display:flex; align-items:center; justify-content:center; text-align:center;
-    padding:max(24px, env(safe-area-inset-top)) 28px max(24px, env(safe-area-inset-bottom));
-    overflow:hidden;
-  }
-  body::before {
-    content:""; position:fixed; inset:-20%;
-    background:radial-gradient(circle at 50% 38%, rgba(242,198,207,.55), rgba(251,246,241,0) 55%);
-    z-index:-1;
-  }
-  .wrap { max-width:360px; opacity:0; transform:translateY(12px); animation:in 1.1s cubic-bezier(.22,1,.36,1) .15s forwards; }
-  .heart { font-size:44px; color:var(--pink-deep); display:inline-block; animation:beat 2.4s ease-in-out infinite; }
-  h1 { font-family:'Cormorant Garamond', Georgia, serif; font-weight:500; font-size:44px; line-height:1.05; margin:18px 0 12px; letter-spacing:.2px; }
-  p { font-size:15px; line-height:1.55; color:var(--soft); }
-  .count { display:flex; justify-content:center; gap:10px; margin:30px 0 26px; }
-  .cell { min-width:72px; padding:14px 6px 10px; border-radius:18px; background:rgba(255,255,255,.7); border:1px solid rgba(231,164,178,.35); }
-  .num { font-family:'Cormorant Garamond', Georgia, serif; font-size:34px; line-height:1; color:var(--choc); font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"lnum" 1, "tnum" 1; }
-  .lbl { font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--soft); margin-top:6px; }
-  .foot { font-family:'Cormorant Garamond', Georgia, serif; font-style:italic; font-size:19px; color:var(--choc); }
-  @keyframes in { to { opacity:1; transform:none; } }
-  @keyframes beat { 0%,100% { transform:scale(1); } 12% { transform:scale(1.12); } 24% { transform:scale(1); } 36% { transform:scale(1.08); } 48% { transform:scale(1); } }
-  @media (prefers-reduced-motion: reduce) { .wrap { animation:none; opacity:1; transform:none; } .heart { animation:none; } }
+:root{
+  --paper:#FBF6F1; --cream:#FFFDF8; --choc:#5A3A2E; --soft:#9C7B6E;
+  --pink:#F2C6CF; --pink-deep:#E7A4B2; --wax:#A8435A; --kraft:#D9B99B; --sky:#BFD8EA;
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .23 0 0 0 0 .18 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--paper) var(--grain);color:var(--choc);font-family:'Manrope',-apple-system,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.hand{font-family:'Caveat',cursive}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.gingham{background-color:#FBEFF1;background-image:var(--grain),linear-gradient(90deg,rgba(231,164,178,.26) 50%,transparent 50%),linear-gradient(rgba(231,164,178,.26) 50%,transparent 50%);background-size:180px 180px,26px 26px,26px 26px}
+.stripes{background-color:#FCF7F2;background-image:var(--grain),repeating-linear-gradient(90deg,rgba(191,216,234,.45) 0 14px,transparent 14px 34px)}
+.roses{background-color:#FBF3EE;background-image:var(--grain),radial-gradient(circle at 25% 30%,rgba(231,164,178,.35) 0 5px,transparent 6px),radial-gradient(circle at 75% 70%,rgba(231,164,178,.35) 0 5px,transparent 6px),radial-gradient(circle at 75% 30%,rgba(217,185,155,.35) 0 2px,transparent 3px),radial-gradient(circle at 25% 70%,rgba(217,185,155,.35) 0 2px,transparent 3px);background-size:180px 180px,46px 46px,46px 46px,46px 46px,46px 46px}
+.tape{position:absolute;width:104px;height:26px;z-index:6;opacity:.92;
+  background:repeating-linear-gradient(45deg,rgba(242,198,207,.85) 0 7px,rgba(255,253,248,.85) 7px 14px);
+  clip-path:polygon(3% 0,97% 4%,100% 22%,96% 45%,100% 70%,97% 100%,2% 96%,0 75%,4% 50%,0 25%);
+  box-shadow:0 1px 2px rgba(90,58,46,.08)}
+.tape.sky{background:repeating-linear-gradient(90deg,rgba(191,216,234,.85) 0 6px,rgba(255,253,248,.85) 6px 12px)}
+.tape.lemon{background:rgba(247,233,160,.8)}
+.lace{height:16px;background:radial-gradient(circle at 9px 0,transparent 8px,#fff 8.5px) repeat-x;background-size:18px 16px;filter:drop-shadow(0 1px 0 rgba(90,58,46,.06))}
+.lace-holes{height:10px;background:#fff radial-gradient(circle,var(--paper) 2px,transparent 2.5px) repeat-x;background-size:18px 10px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- ещё рано ---------- */
+#early{min-height:100dvh;display:none;align-items:center;justify-content:center;text-align:center;padding:28px}
+#early::before{content:"";position:fixed;inset:-20%;background:radial-gradient(circle at 50% 38%,rgba(242,198,207,.55),rgba(251,246,241,0) 55%);z-index:-1}
+#early .heart{font-size:44px;color:var(--pink-deep);display:inline-block;animation:beat 2.4s ease-in-out infinite}
+#early h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:44px;margin:18px 0 12px}
+#early p{font-size:15px;line-height:1.55;color:var(--soft)}
+.count{display:flex;justify-content:center;gap:10px;margin:30px 0 26px}
+.cell{min-width:72px;padding:14px 6px 10px;border-radius:18px;background:rgba(255,255,255,.7);border:1px solid rgba(231,164,178,.35)}
+.num{font-family:'Cormorant Garamond',serif;font-size:34px;line-height:1;font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1}
+.lbl{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--soft);margin-top:6px}
+@keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.12)}24%{transform:scale(1)}36%{transform:scale(1.08)}48%{transform:scale(1)}}
+
+/* ---------- обложка с конвертом ---------- */
+#gift{display:none}
+.cover{min-height:100dvh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 22px 40px;text-align:center;overflow:hidden}
+.cover .lace{position:absolute;left:0;right:0;top:0;transform:rotate(180deg)}
+.cover .lace.b{top:auto;bottom:0;transform:none}
+.kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--soft)}
+.title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:54px;line-height:1;margin:10px 0 6px}
+.dates{font-family:'Caveat',cursive;font-size:24px;color:var(--soft);margin-bottom:0}
+.env-wrap{position:relative;width:310px;height:212px;perspective:900px;margin:150px 0 26px;cursor:pointer}
+.env-back,.env-pocket,.env-flap{position:absolute;inset:0;border-radius:6px}
+.env-back{background:#F7DDE2 var(--grain);box-shadow:0 18px 30px -14px rgba(90,58,46,.35),0 2px 4px rgba(90,58,46,.08);z-index:1}
+.env-pocket{z-index:3;background:linear-gradient(160deg,#F9E4E8,#F3D3DA) ;clip-path:polygon(0 0,50% 60%,100% 0,100% 100%,0 100%);border-radius:0 0 6px 6px}
+.env-pocket::after{content:"";position:absolute;inset:0;background:var(--grain);opacity:.9}
+.env-flap{z-index:4;background:linear-gradient(180deg,#F5D2D9,#EFC3CC);clip-path:polygon(0 0,100% 0,50% 62%);transform-origin:top center;transition:transform .7s cubic-bezier(.65,0,.35,1);filter:drop-shadow(0 3px 3px rgba(90,58,46,.12))}
+.letter-peek{position:absolute;left:7%;right:7%;top:8%;height:84%;z-index:2;background:var(--cream) var(--grain);border-radius:3px;
+  box-shadow:0 1px 3px rgba(90,58,46,.12);transition:transform .9s var(--ease) .35s;padding:22px 18px;text-align:left}
+.letter-peek .hand{font-size:22px;line-height:1.1}
+.seal{position:absolute;left:50%;top:62%;width:66px;height:66px;margin:-33px 0 0 -33px;z-index:5;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#C9677D,#A8435A 55%,#86304A);
+  box-shadow:0 3px 6px rgba(90,30,40,.35),inset 0 -3px 6px rgba(0,0,0,.18),inset 0 3px 5px rgba(255,255,255,.18);
+  display:flex;align-items:center;justify-content:center;transition:transform .35s ease-out,opacity .35s ease-out}
+.seal::before{content:"";position:absolute;inset:7px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22)}
+.seal span{font-size:24px;color:rgba(255,235,240,.55);text-shadow:0 -1px 0 rgba(0,0,0,.25)}
+.seal-pulse{animation:sealp 2.6s ease-in-out infinite}
+@keyframes sealp{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.stamp{position:absolute;right:-14px;top:-22px;z-index:6;width:62px;height:74px;transform:rotate(7deg);padding:6px;
+  background:radial-gradient(circle,transparent 3px,#fff 3.5px) -5px -5px/10px 10px;filter:drop-shadow(0 2px 2px rgba(90,58,46,.18))}
+.stamp div{width:100%;height:100%;background:var(--sky);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:'Cormorant Garamond',serif}
+.stamp b{font-size:30px;font-weight:500;line-height:1}.stamp i{font-size:10px;letter-spacing:1px;font-style:normal}
+.env-tag{position:absolute;left:-18px;bottom:-26px;z-index:6;transform:rotate(-8deg);background:var(--kraft) var(--grain);padding:8px 14px 8px 22px;
+  clip-path:polygon(14px 0,100% 0,100% 100%,14px 100%,0 50%);font-family:'Caveat',cursive;font-size:21px;color:var(--choc)}
+.env-tag::before{content:"";position:absolute;left:10px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--paper)}
+.hint{font-family:'Caveat',cursive;font-size:23px;color:var(--soft);margin-top:30px;transition:opacity .4s}
+body.opened .seal{transform:scale(.6);opacity:0}
+body.opened .env-flap{transform:rotateX(180deg);z-index:0}
+body.opened .letter-peek{transform:translateY(-58%)}
+body.opened .hint{opacity:0}
+
+/* ---------- письмо ---------- */
+.cover .letter.unfold{display:none;width:100%;margin:34px auto 30px;text-align:left}
+body.opened .cover .letter.unfold{display:block;animation:unfold 1.3s var(--ease) .95s both}
+@keyframes unfold{0%{opacity:0;transform:translateY(-70px) rotate(-1deg) scaleY(.15);transform-origin:top center}
+  55%{opacity:1}100%{opacity:1;transform:rotate(-1deg) scaleY(1);transform-origin:top center}}
+.hint{position:absolute;left:0;right:0;bottom:46px}
+body.opened .letter-peek{opacity:0;transition:transform .9s var(--ease) .35s,opacity .45s ease 1.05s}
+body.opened .cover{padding-bottom:56px}
+.env-tag{transition:opacity .4s ease}
+body.opened .env-tag{opacity:0}
+#letterFull{scroll-margin-top:28px}
+
+.content{display:none}
+body.opened .content{display:block}
+section{position:relative;padding:64px 22px}
+.h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:38px;text-align:center;line-height:1.05}
+.sub{text-align:center;font-family:'Caveat',cursive;font-size:22px;color:var(--soft);margin-top:4px}
+.letter{position:relative;max-width:380px;margin:18px auto 0;padding:40px 24px 34px 40px;transform:rotate(-1deg);
+  background:var(--cream) var(--grain);
+  background-image:var(--grain),linear-gradient(90deg,transparent 28px,rgba(231,164,178,.6) 28px 29.5px,transparent 29.5px),repeating-linear-gradient(transparent 0 33px,rgba(191,216,234,.7) 33px 34px);
+  background-position:0 0,0 0,0 0;box-shadow:0 20px 30px -18px rgba(90,58,46,.35),0 1px 3px rgba(90,58,46,.1)}
+.letter .tape{top:-12px;left:50%;margin-left:-52px;transform:rotate(-3deg)}
+.letter p{font-family:'Caveat',cursive;font-size:25px;line-height:34px;color:#4A2F25}
+.letter p+p{margin-top:0;text-indent:22px}
+.letter .sign{text-align:right;margin-top:14px;font-size:28px}
+.placeholder{color:#B39A8E}
+
+/* ---------- счётчик ---------- */
+.together{display:flex;flex-direction:column;align-items:center}
+.bigtag{position:relative;margin-top:30px;width:300px;padding:30px 22px 26px 46px;background:var(--kraft) var(--grain);
+  clip-path:polygon(28px 0,100% 0,100% 100%,28px 100%,0 50%);transform:rotate(-2deg);box-shadow:0 10px 18px -12px rgba(90,58,46,.4)}
+.bigtag::before{content:"";position:absolute;left:18px;top:50%;width:11px;height:11px;margin-top:-5.5px;border-radius:50%;background:var(--paper);box-shadow:inset 0 1px 2px rgba(0,0,0,.2)}
+.string{position:absolute;left:-60px;top:50%;width:84px;height:2px;background:#C8A88C;transform:rotate(-14deg);transform-origin:right}
+.days{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:64px;line-height:.9;font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+.days small{font-family:'Caveat',cursive;font-size:28px;margin-left:6px}
+.ticks{display:flex;gap:14px;margin-top:10px;font-family:'Caveat',cursive;font-size:21px;color:#6E4A3C}
+.ticks b{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:22px;font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1}
+
+/* ---------- видео ---------- */
+.polaroid{position:relative;width:286px;margin:34px auto 0;background:#fff;padding:14px 14px 58px;transform:rotate(2deg);box-shadow:0 22px 30px -18px rgba(90,58,46,.45),0 1px 3px rgba(90,58,46,.12)}
+.polaroid .tape{top:-12px;right:-26px;transform:rotate(32deg)}
+.polaroid .tape.l{left:-28px;right:auto;transform:rotate(-34deg)}
+.frame{position:relative;aspect-ratio:4/5;background:linear-gradient(160deg,#F3D6DC,#E9C7B8 60%,#DCC3B3);overflow:hidden}
+.frame video{width:100%;height:100%;object-fit:cover;display:block}
+.play{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;background:rgba(255,253,248,.85);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(90,58,46,.18)}
+.play::after{content:"";margin-left:5px;border-left:18px solid var(--choc);border-top:11px solid transparent;border-bottom:11px solid transparent}
+.frame .ph{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-family:'Caveat',cursive;font-size:20px;color:rgba(90,58,46,.55)}
+.polaroid figcaption{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:'Caveat',cursive;font-size:27px}
+
+.final{text-align:center;padding:70px 22px 90px}
+.final .hand{font-size:34px}
+.final .h{font-size:30px;color:var(--pink-deep);display:inline-block;animation:beat 2.4s ease-in-out infinite;margin-top:10px}
+.final .serif{font-style:italic;font-size:17px;color:var(--soft);margin-top:18px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<main class="wrap">
-  <span class="heart">♡</span>
-  <h1 id="title">Ещё рано</h1>
-  <p id="sub">Это откроется 20 ноября.<br>Наберись терпения</p>
-  <div class="count" id="count">
-    <div class="cell"><div class="num" id="d">0</div><div class="lbl">дн</div></div>
-    <div class="cell"><div class="num" id="h">00</div><div class="lbl">ч</div></div>
-    <div class="cell"><div class="num" id="m">00</div><div class="lbl">мин</div></div>
+
+<!-- ещё рано -->
+<main id="early">
+  <div>
+    <span class="heart">♡</span>
+    <h1>Ещё рано</h1>
+    <p>Это откроется 20 ноября.<br>Наберись терпения</p>
+    <div class="count">
+      <div class="cell"><div class="num" id="d">0</div><div class="lbl">дн</div></div>
+      <div class="cell"><div class="num" id="h">00</div><div class="lbl">ч</div></div>
+      <div class="cell"><div class="num" id="m">00</div><div class="lbl">мин</div></div>
+    </div>
+    <div class="serif" style="font-style:italic;font-size:19px">chapter two</div>
   </div>
-  <div class="foot">chapter two</div>
 </main>
+
+<div id="gift">
+  <!-- обложка -->
+  <header class="cover gingham">
+    <div class="lace"></div>
+    <div class="kicker">20.11.2024 — 20.11.2026</div>
+    <div class="title">chapter two</div>
+    <div class="dates">два года нас</div>
+    <div class="env-wrap" id="env">
+      <div class="env-back"></div>
+      <div class="letter-peek"><div class="hand">Тебе ♡</div></div>
+      <div class="env-pocket"></div>
+      <div class="env-flap"></div>
+      <div class="seal seal-pulse"><span>♥</span></div>
+      <div class="stamp"><div><b>2</b><i>ГОДА</i></div></div>
+      <div class="env-tag">открой меня</div>
+    </div>
+    <div class="hint">нажми на печать</div>
+    <article class="letter unfold" id="letterFull">
+        <span class="tape"></span>
+        <p>Мы вместе два года, но ощущение что гораздо дольше. Эти два года самые счастливые в моей жизни, благодаря тебе. Я уже и не представляю свои дни без тебя. Без мысли о тебе, без встречи с тобой, без разговоров с тобой, без чувств к тебе. Ты мой самый любимый и самый дорогой человек. Без тебя всё теряет смысл, а с тобой всё становится гораздо проще. Проблемы не кажутся такими большими, конфликты не кажется такими важными, дела не кажется такими неподъемными, ответственность не кажется такой тяжелой, кошмары не кажутся такими пугающими, пакеты становятся легче, еда вкуснее, фильмы интереснее, покупки дешевле, а любовь становится с каждым разом вдвое больше.</p>
+        <p>Я желаю нам любить друг друга все сильней. Хочу, чтобы с каждым днём, мы слышали и слушали друг друга гораздо больше, чем в предыдущий день. Чтобы мы чувствовали друг друга. Чтобы мы чувствовали желание друг друга, скрытые потребности друг друга, эмоциональное состояние друг друга, чувствовали, когда нужно уступить в споре, а когда надавить, чтобы другой раскрылся. Хочу, чтобы мы мотивировали друг друга идти вперёд и не останавливаться. Мотивировали на большие свершения и маленькие поступки. Хочу чтобы мы вместе могли создавать, придумывать, играть, делать что-то вместе, начинать новое и заканчивать старое. Я хочу, чтобы мы друг друга очень и очень любили.</p>
+        <p>Спасибо тебе, за твоё терпение, за все твои старания, ради наших отношений, за все твои тёплые слова, сказанные в мой адрес, и за все то, что ты уже сделал или ещё только сделаешь ради меня.</p>
+        <p>Сегодня день который изменил и твою и мою жизнь, в самую наилучшую сторону. И я благодарна всем событиям, которые произошли для этого. Мне очень трудно на душе, что ты сейчас далеко. Я очень не хочу, чтобы этот день прошёл незамеченным. Так как это очень важный день в наших жизнях. Это наш собственный новый год.</p>
+        <p>Очень жду тебя домой.</p>
+        <p class="sign">Твоя любимая Анюта.</p>
+      </article>
+    <div class="lace b"></div>
+  </header>
+
+  <div class="content">
+    <!-- мы вместе -->
+    <section class="stripes together">
+      <div class="h2 reveal">Мы вместе</div>
+      <div class="sub reveal">и это время всё ещё идёт</div>
+      <div class="bigtag reveal">
+        <span class="string"></span>
+        <div class="days"><span id="td">730</span><small>дней</small></div>
+        <div class="ticks"><span><b id="th">0</b> ч</span><span><b id="tm">0</b> мин</span><span><b id="ts">0</b> сек</span></div>
+      </div>
+    </section>
+
+    <footer class="final gingham">
+      <div class="hand reveal">продолжение следует…</div>
+      <div class="h">♡</div>
+      <div class="serif">chapter three — скоро</div>
+    </footer>
+  </div>
+</div>
+
+<audio id="song" preload="none"></audio>
+
 <script>
-  const target = new Date(Date.UTC(2026, 10, 20, 15, 0, 0)); // 20.11 17:00 Калининград
-  const pad = n => String(n).padStart(2, '0');
-  function tick() {
-    const diff = target - new Date();
-    if (diff <= 0) {
-      document.getElementById('title').textContent = 'Почти готово';
-      document.getElementById('sub').innerHTML = 'Загляни сюда чуть позже';
-      document.getElementById('count').style.display = 'none';
-      return;
-    }
-    const mins = Math.floor(diff / 60000);
-    document.getElementById('d').textContent = Math.floor(mins / 1440);
-    document.getElementById('h').textContent = pad(Math.floor(mins / 60) % 24);
-    document.getElementById('m').textContent = pad(mins % 60);
-  }
+const START = new Date(2024, 10, 20, 0, 0, 0);
+const OPEN  = new Date(Date.UTC(2026, 10, 20, 15, 0, 0)); // 20.11 17:00 Калининград (UTC+2)
+const SONG  = '';            // 'song.mp3' — включится, когда откроет конверт
+const pad = n => String(n).padStart(2,'0');
+const preview = new URLSearchParams(location.search).has('a7k2');
+
+if (new Date() < OPEN && !preview) {
+  document.getElementById('early').style.display = 'flex';
+  const t = () => { const diff = OPEN - new Date(); if (diff <= 0) return location.reload();
+    const m = Math.floor(diff/60000);
+    d.textContent = Math.floor(m/1440); h.textContent = pad(Math.floor(m/60)%24); document.getElementById('m').textContent = pad(m%60); };
+  t(); setInterval(t, 1000);
+} else {
+  document.getElementById('gift').style.display = 'block';
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.18});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const open = () => {
+    if (document.body.classList.contains('opened')) return;
+    document.body.classList.add('opened');
+    if (SONG) { const a = document.getElementById('song'); a.src = SONG; a.play().catch(()=>{}); }
+    setTimeout(() => document.getElementById('letterFull').scrollIntoView({behavior:'smooth', block:'start'}), 1150);
+  };
+  document.getElementById('env').addEventListener('click', open);
+
+  const tick = () => {
+    const s = Math.floor((new Date() - START)/1000);
+    td.textContent = Math.floor(s/86400); th.textContent = Math.floor(s/3600)%24;
+    tm.textContent = pad(Math.floor(s/60)%60); ts.textContent = pad(s%60);
+  };
   tick(); setInterval(tick, 1000);
+
+  const v = document.querySelector('#frame video');
+  if (v) document.getElementById('frame').addEventListener('click', () => { document.querySelector('.play')?.remove(); v.play(); });
+}
 </script>
 </body>
 </html>
