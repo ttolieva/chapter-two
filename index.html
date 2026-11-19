@@ -205,7 +205,7 @@ section{position:relative;padding:64px 22px}
         <span class="tape"></span>
         <div class="sframe" id="sframe">
           <img src="m1.jpg" alt="" class="on"><img src="m2.jpg" alt=""><img src="m3.jpg" alt="">
-          <video id="mv" playsinline preload="auto"></video>
+          <video id="mv" playsinline preload="auto" poster="love_poster.jpg"></video>
           <canvas id="foil"></canvas>
         </div>
         <figcaption id="scap">потри пальцем ♡</figcaption>
@@ -293,8 +293,8 @@ if (new Date() < OPEN && !preview) {
 
 
   // потри — появится (видео и музыка под плёнкой)
-  const VIDEO = '';          // 'love.mp4' — видео под плёнкой (со своим звуком)
-  const VIDEO_RATIO = '';    // например '9/16' — пропорции видео
+  const VIDEO = 'love.mp4';          // 'love.mp4' — видео под плёнкой (со своим звуком)
+  const VIDEO_RATIO = '480/352';    // например '9/16' — пропорции видео
   const SCRATCH_SONG = '';   // 'song.mp3' — отдельная песня, если нужна поверх видео
   const cv = document.getElementById('foil'), fr = document.getElementById('sframe'), mv = document.getElementById('mv');
   const song2 = SCRATCH_SONG ? new Audio(SCRATCH_SONG) : null;
@@ -347,10 +347,11 @@ if (new Date() < OPEN && !preview) {
   const imgs = fr.querySelectorAll('img'); let k = 0;
   const reveal = () => {
     if (done) return; done = true; cv.classList.add('gone');
-    document.getElementById('scap').textContent = 'это мы ♡';
+    const cap = document.getElementById('scap'); cap.textContent = 'это мы ♡';
     if (VIDEO) {
       fr.addEventListener('click', () => { if (fromFoil) { fromFoil = false; return; } if (mv.paused) { mv.play(); if (song2) song2.play(); } else { mv.pause(); if (song2) song2.pause(); } });
-      mv.addEventListener('ended', () => { if (song2) song2.pause(); });
+      mv.addEventListener('ended', () => { if (song2) song2.pause(); mv.currentTime = 0; cap.textContent = 'нажми — ещё раз ♡'; });
+      mv.addEventListener('play', () => { cap.textContent = 'это мы ♡'; });
     } else setInterval(() => { imgs[k].classList.remove('on'); k = (k + 1) % imgs.length; imgs[k].classList.add('on'); }, 3000);
   };
   const pos = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
