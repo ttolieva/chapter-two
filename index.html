@@ -296,18 +296,29 @@ if (new Date() < OPEN && !preview) {
     const w = fr.clientWidth, h = fr.clientHeight, dpr = Math.min(3, devicePixelRatio || 1);
     cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
     ctx2 = cv.getContext('2d'); ctx2.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const g = ctx2.createLinearGradient(0, 0, w, h);
-    g.addColorStop(0, '#F3C9D2'); g.addColorStop(.45, '#E9AEBC'); g.addColorStop(.55, '#F6D6DD'); g.addColorStop(1, '#DFA0B0');
+    const g = ctx2.createLinearGradient(0, 0, w, h);          // серебряная защитная плёнка, как на промокоде
+    g.addColorStop(0, '#B9B9C1'); g.addColorStop(.22, '#E6E6EC'); g.addColorStop(.38, '#C4C4CC');
+    g.addColorStop(.55, '#F1F1F5'); g.addColorStop(.72, '#BDBDC5'); g.addColorStop(1, '#D9D9E0');
     ctx2.fillStyle = g; ctx2.fillRect(0, 0, w, h);
-    ctx2.fillStyle = 'rgba(255,255,255,.35)'; ctx2.font = '16px serif';
-    for (let y = 14; y < h; y += 30) for (let x = (y / 30 % 2) * 15 + 10; x < w; x += 30) ctx2.fillText('♡', x, y);
-    ctx2.fillStyle = 'rgba(255,255,255,.18)';
-    for (let i = 0; i < 900; i++) ctx2.fillRect(Math.random() * w, Math.random() * h, 1, 1);
-    ctx2.fillStyle = '#7A4A45'; ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
-    ctx2.font = '600 34px Caveat, cursive'; ctx2.fillText('потри ♡', w / 2, h / 2);
+    for (let i = 0; i < 2600; i++) {                            // металлическое зерно
+      const v = Math.random() < .5 ? 255 : 120; ctx2.fillStyle = `rgba(${v},${v},${v + 8},${Math.random() * .16})`;
+      ctx2.fillRect(Math.random() * w, Math.random() * h, 1.2, 1.2);
+    }
+    ctx2.save(); ctx2.globalAlpha = .28; ctx2.fillStyle = '#fff';  // блики
+    [[.18, 22], [.52, 34], [.8, 16]].forEach(([p, s]) => { ctx2.beginPath(); ctx2.moveTo(w * p, 0); ctx2.lineTo(w * p + s, 0); ctx2.lineTo(w * p + s - h * .6, h); ctx2.lineTo(w * p - h * .6, h); ctx2.fill(); });
+    ctx2.restore();
+    ctx2.fillStyle = 'rgba(255,255,255,.5)'; ctx2.font = '15px serif';
+    for (let y = 16; y < h; y += 30) for (let x = (y / 30 % 2) * 15 + 10; x < w; x += 30) ctx2.fillText('♡', x, y);
+    ctx2.strokeStyle = 'rgba(120,120,130,.55)'; ctx2.setLineDash([5, 4]); ctx2.lineWidth = 1.5;
+    ctx2.strokeRect(9, 9, w - 18, h - 18); ctx2.setLineDash([]);
+    ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
+    ctx2.fillStyle = 'rgba(255,255,255,.7)'; ctx2.font = '600 36px Caveat, cursive'; ctx2.fillText('потри ♡', w / 2 + 1, h / 2 - 7);
+    ctx2.fillStyle = '#6E6670'; ctx2.fillText('потри ♡', w / 2, h / 2 - 8);
+    ctx2.font = '500 13px Manrope, sans-serif'; ctx2.fillStyle = '#7C7580';
+    ctx2.fillText('здесь спрятан сюрприз', w / 2, h / 2 + 24);
     ready = true;
   };
-  const prepare = () => (document.fonts ? document.fonts.load('600 34px Caveat') : Promise.resolve()).then(paint);
+  const prepare = () => (document.fonts ? Promise.all([document.fonts.load('600 36px Caveat'), document.fonts.load('500 13px Manrope')]) : Promise.resolve()).then(paint);
   const scratch = (x, y) => {
     ctx2.globalCompositeOperation = 'destination-out'; ctx2.lineCap = ctx2.lineJoin = 'round'; ctx2.lineWidth = 46;
     ctx2.beginPath(); ctx2.moveTo(last ? last[0] : x, last ? last[1] : y); ctx2.lineTo(x, y); ctx2.stroke();
