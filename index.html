@@ -109,6 +109,8 @@ section{position:relative;padding:64px 22px}
 .sframe{position:relative;aspect-ratio:480/352;overflow:hidden;background:#EAD9D3}
 .sframe img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity 1.2s ease,transform 3.4s ease-out}
 .sframe img.on{opacity:1;transform:scale(1)}
+.sframe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;background:#000}
+.sframe.has-video video{display:block}.sframe.has-video img{display:none}
 .sframe canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:pointer;transition:opacity .8s ease}
 .sframe canvas.gone{opacity:0;pointer-events:none}
 .scard figcaption{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:'Caveat',cursive;font-size:26px}
@@ -203,6 +205,7 @@ section{position:relative;padding:64px 22px}
         <span class="tape"></span>
         <div class="sframe" id="sframe">
           <img src="m1.jpg" alt="" class="on"><img src="m2.jpg" alt=""><img src="m3.jpg" alt="">
+          <video id="mv" playsinline preload="auto"></video>
           <canvas id="foil"></canvas>
         </div>
         <figcaption id="scap">потри пальцем ♡</figcaption>
@@ -289,13 +292,24 @@ if (new Date() < OPEN && !preview) {
   env.addEventListener('click', open);
 
 
-  // потри — появится
-  const cv = document.getElementById('foil'), fr = document.getElementById('sframe');
+  // потри — появится (видео и музыка под плёнкой)
+  const VIDEO = '';          // 'love.mp4' — видео под плёнкой (со своим звуком)
+  const VIDEO_RATIO = '';    // например '9/16' — пропорции видео
+  const SCRATCH_SONG = '';   // 'song.mp3' — отдельная песня, если нужна поверх видео
+  const cv = document.getElementById('foil'), fr = document.getElementById('sframe'), mv = document.getElementById('mv');
+  const song2 = SCRATCH_SONG ? new Audio(SCRATCH_SONG) : null;
+  if (VIDEO) { fr.classList.add('has-video'); if (VIDEO_RATIO) fr.style.aspectRatio = VIDEO_RATIO; mv.src = VIDEO; mv.muted = !!song2; }
+  let mediaOn = false, fromFoil = false;
+  const startMedia = () => {               // первое касание плёнки — сразу включаем видео и музыку
+    if (mediaOn) return; mediaOn = true;
+    if (VIDEO) mv.play().catch(() => {});
+    if (song2) song2.play().catch(() => {});
+  };
   let ctx2, ready = false, done = false, last = null, moves = 0;
   const paint = () => {
     const w = fr.clientWidth, h = fr.clientHeight, dpr = Math.min(3, devicePixelRatio || 1);
     cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
-    ctx2 = cv.getContext('2d'); ctx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx2 = cv.getContext('2d', {willReadFrequently: true}); ctx2.setTransform(dpr, 0, 0, dpr, 0, 0);
     const g = ctx2.createLinearGradient(0, 0, w, h);          // серебряная защитная плёнка, как на промокоде
     g.addColorStop(0, '#B9B9C1'); g.addColorStop(.22, '#E6E6EC'); g.addColorStop(.38, '#C4C4CC');
     g.addColorStop(.55, '#F1F1F5'); g.addColorStop(.72, '#BDBDC5'); g.addColorStop(1, '#D9D9E0');
@@ -334,10 +348,13 @@ if (new Date() < OPEN && !preview) {
   const reveal = () => {
     if (done) return; done = true; cv.classList.add('gone');
     document.getElementById('scap').textContent = 'это мы ♡';
-    setInterval(() => { imgs[k].classList.remove('on'); k = (k + 1) % imgs.length; imgs[k].classList.add('on'); }, 3000);
+    if (VIDEO) {
+      fr.addEventListener('click', () => { if (fromFoil) { fromFoil = false; return; } if (mv.paused) { mv.play(); if (song2) song2.play(); } else { mv.pause(); if (song2) song2.pause(); } });
+      mv.addEventListener('ended', () => { if (song2) song2.pause(); });
+    } else setInterval(() => { imgs[k].classList.remove('on'); k = (k + 1) % imgs.length; imgs[k].classList.add('on'); }, 3000);
   };
   const pos = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
-  cv.addEventListener('pointerdown', e => { if (!ready) return; cv.setPointerCapture(e.pointerId); last = null; scratch(...pos(e)); });
+  cv.addEventListener('pointerdown', e => { if (!ready) return; fromFoil = true; startMedia(); cv.setPointerCapture(e.pointerId); last = null; scratch(...pos(e)); });
   cv.addEventListener('pointermove', e => { if (!ready || !cv.hasPointerCapture(e.pointerId)) return; scratch(...pos(e)); });
   cv.addEventListener('pointerup', () => { last = null; if (ready && !done) check(); });
   const sio = new IntersectionObserver(es => { if (es[0].isIntersecting) { prepare(); sio.disconnect(); } });
