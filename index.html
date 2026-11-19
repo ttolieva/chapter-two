@@ -49,21 +49,20 @@ body{background:var(--paper) var(--grain);color:var(--choc);font-family:'Manrope
 
 /* ---------- обложка с конвертом ---------- */
 #gift{display:none}
-.cover{min-height:100dvh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 22px 40px;text-align:center;overflow:hidden}
+.cover{min-height:100vh;min-height:100dvh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:max(48px, calc((100vh - 500px) / 2)) 22px 96px;padding-top:max(48px, calc((100dvh - 500px) / 2));text-align:center;overflow:hidden}
 .cover .lace{position:absolute;left:0;right:0;top:0;transform:rotate(180deg)}
 .cover .lace.b{top:auto;bottom:0;transform:none}
 .kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--soft)}
 .title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:54px;line-height:1;margin:10px 0 6px}
 .dates{font-family:'Caveat',cursive;font-size:24px;color:var(--soft);margin-bottom:0}
-.env-wrap{position:relative;width:310px;height:212px;perspective:900px;margin:150px 0 26px;cursor:pointer}
+.env-wrap{position:relative;width:310px;height:212px;margin:96px 0 26px;cursor:pointer}
 .env-back,.env-pocket,.env-flap{position:absolute;inset:0;border-radius:6px}
-.env-back{background:#F7DDE2 var(--grain);box-shadow:0 18px 30px -14px rgba(90,58,46,.35),0 2px 4px rgba(90,58,46,.08);z-index:1}
-.env-pocket{z-index:3;background:linear-gradient(160deg,#F9E4E8,#F3D3DA) ;clip-path:polygon(0 0,50% 60%,100% 0,100% 100%,0 100%);border-radius:0 0 6px 6px}
+.env-back{background:#F7DDE2 var(--grain);box-shadow:0 18px 30px -14px rgba(90,58,46,.35),0 2px 4px rgba(90,58,46,.08);z-index:1;transition:opacity .5s ease}
+.env-pocket{z-index:3;background:linear-gradient(160deg,#F9E4E8,#F3D3DA);clip-path:polygon(0 0,50% 60%,100% 0,100% 100%,0 100%);border-radius:0 0 6px 6px;transition:opacity .5s ease}
 .env-pocket::after{content:"";position:absolute;inset:0;background:var(--grain);opacity:.9}
-.env-flap{z-index:4;background:linear-gradient(180deg,#F5D2D9,#EFC3CC);clip-path:polygon(0 0,100% 0,50% 62%);transform-origin:top center;transition:transform .7s cubic-bezier(.65,0,.35,1);filter:drop-shadow(0 3px 3px rgba(90,58,46,.12))}
-.letter-peek{position:absolute;left:7%;right:7%;top:8%;height:84%;z-index:2;background:var(--cream) var(--grain);border-radius:3px;
-  box-shadow:0 1px 3px rgba(90,58,46,.12);transition:transform .9s var(--ease) .35s;padding:22px 18px;text-align:left}
-.letter-peek .hand{font-size:22px;line-height:1.1}
+.env-flap{z-index:4;background:linear-gradient(180deg,#F5D2D9,#EFC3CC);clip-path:polygon(0 0,100% 0,50% 62%);transform-origin:top center;
+  transform:perspective(900px) rotateX(0deg);transition:transform .7s cubic-bezier(.65,0,.35,1),opacity .5s ease;filter:drop-shadow(0 3px 3px rgba(90,58,46,.12))}
 .seal{position:absolute;left:50%;top:62%;width:66px;height:66px;margin:-33px 0 0 -33px;z-index:5;border-radius:50%;
   background:radial-gradient(circle at 38% 32%,#C9677D,#A8435A 55%,#86304A);
   box-shadow:0 3px 6px rgba(90,30,40,.35),inset 0 -3px 6px rgba(0,0,0,.18),inset 0 3px 5px rgba(255,255,255,.18);
@@ -72,45 +71,34 @@ body{background:var(--paper) var(--grain);color:var(--choc);font-family:'Manrope
 .seal span{font-size:24px;color:rgba(255,235,240,.55);text-shadow:0 -1px 0 rgba(0,0,0,.25)}
 .seal-pulse{animation:sealp 2.6s ease-in-out infinite}
 @keyframes sealp{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.stamp{position:absolute;right:-14px;top:-22px;z-index:6;width:62px;height:74px;transform:rotate(7deg);padding:6px;
+.stamp{position:absolute;right:-14px;top:-22px;z-index:6;width:62px;height:74px;transform:rotate(7deg);padding:6px;transition:opacity .5s ease;
   background:radial-gradient(circle,transparent 3px,#fff 3.5px) -5px -5px/10px 10px;filter:drop-shadow(0 2px 2px rgba(90,58,46,.18))}
 .stamp div{width:100%;height:100%;background:var(--sky);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:'Cormorant Garamond',serif}
 .stamp b{font-size:30px;font-weight:500;line-height:1}.stamp i{font-size:10px;letter-spacing:1px;font-style:normal}
-.env-tag{position:absolute;left:-18px;bottom:-26px;z-index:6;transform:rotate(-8deg);background:var(--kraft) var(--grain);padding:8px 14px 8px 22px;
+.env-tag{position:absolute;left:-18px;bottom:-26px;z-index:6;transform:rotate(-8deg);background:var(--kraft) var(--grain);padding:8px 14px 8px 22px;transition:opacity .4s ease;
   clip-path:polygon(14px 0,100% 0,100% 100%,14px 100%,0 50%);font-family:'Caveat',cursive;font-size:21px;color:var(--choc)}
 .env-tag::before{content:"";position:absolute;left:10px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--paper)}
-.hint{font-family:'Caveat',cursive;font-size:23px;color:var(--soft);margin-top:30px;transition:opacity .4s}
+.hint{position:absolute;left:0;right:0;bottom:46px;font-family:'Caveat',cursive;font-size:23px;color:var(--soft);transition:opacity .4s}
 body.opened .seal{transform:scale(.6);opacity:0}
-body.opened .env-flap{transform:rotateX(180deg);z-index:0}
-body.opened .letter-peek{transform:translateY(-58%)}
-body.opened .hint{opacity:0}
+body.opened .env-flap{transform:perspective(900px) rotateX(180deg);z-index:0}
+body.opened .hint, body.opened .env-tag{opacity:0}
+body.lifted .env-back, body.lifted .env-pocket, body.lifted .env-flap, body.lifted .stamp{opacity:0}
 
-/* ---------- письмо ---------- */
-.cover .letter.unfold{display:none;width:100%;margin:34px auto 30px;text-align:left}
-body.opened .cover .letter.unfold{display:block;animation:unfold 1.3s var(--ease) .95s both}
-@keyframes unfold{0%{opacity:0;transform:translateY(-70px) rotate(-1deg) scaleY(.15);transform-origin:top center}
-  55%{opacity:1}100%{opacity:1;transform:rotate(-1deg) scaleY(1);transform-origin:top center}}
-.hint{position:absolute;left:0;right:0;bottom:46px}
-body.opened .letter-peek{opacity:0;transition:transform .9s var(--ease) .35s,opacity .45s ease 1.05s}
-body.opened .cover{padding-bottom:56px}
-.env-tag{transition:opacity .4s ease}
-body.opened .env-tag{opacity:0}
-#letterFull{scroll-margin-top:28px}
-
-.content{display:none}
-body.opened .content{display:block}
-section{position:relative;padding:64px 22px}
-.h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:38px;text-align:center;line-height:1.05}
-.sub{text-align:center;font-family:'Caveat',cursive;font-size:22px;color:var(--soft);margin-top:4px}
-.letter{position:relative;max-width:380px;margin:18px auto 0;padding:40px 24px 34px 40px;transform:rotate(-1deg);
+/* ---------- письмо (лежит в конверте) ---------- */
+.letter{position:relative;margin:0;padding:40px 24px 34px 40px;text-align:left;transform-origin:0 0;
   background:var(--cream) var(--grain);
   background-image:var(--grain),linear-gradient(90deg,transparent 28px,rgba(231,164,178,.6) 28px 29.5px,transparent 29.5px),repeating-linear-gradient(transparent 0 33px,rgba(191,216,234,.7) 33px 34px);
   background-position:0 0,0 0,0 0;box-shadow:0 20px 30px -18px rgba(90,58,46,.35),0 1px 3px rgba(90,58,46,.1)}
+.env-wrap .letter{position:absolute;z-index:2}
+.cover .letter.flow{position:relative;z-index:10;margin:36px auto 0}
 .letter .tape{top:-12px;left:50%;margin-left:-52px;transform:rotate(-3deg)}
-.letter p{font-family:'Caveat',cursive;font-size:25px;line-height:34px;color:#4A2F25}
-.letter p+p{margin-top:0;text-indent:22px}
-.letter .sign{text-align:right;margin-top:14px;font-size:28px}
-.placeholder{color:#B39A8E}
+.letter .txt{white-space:pre-wrap;overflow-wrap:break-word;font-family:'Caveat',cursive;font-size:25px;line-height:34px;color:#4A2F25}
+
+.content{display:none}
+body.read .content{display:block}
+section{position:relative;padding:64px 22px}
+.h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:38px;text-align:center;line-height:1.05}
+.sub{text-align:center;font-family:'Caveat',cursive;font-size:22px;color:var(--soft);margin-top:4px}
 
 /* ---------- счётчик ---------- */
 .together{display:flex;flex-direction:column;align-items:center}
@@ -167,23 +155,20 @@ section{position:relative;padding:64px 22px}
     <div class="dates">два года нас</div>
     <div class="env-wrap" id="env">
       <div class="env-back"></div>
-      <div class="letter-peek"><div class="hand">Тебе ♡</div></div>
+      <article class="letter" id="letterFull"><span class="tape"></span><div class="txt">Мы вместе два года, но ощущение что гораздо дольше. Эти два года самые счастливые в моей жизни, благодаря тебе. Я уже и не представляю свои дни без тебя. Без мысли о тебе, без встречи с тобой, без разговоров с тобой, без чувств к тебе. Ты мой самый любимый и самый дорогой человек. Без тебя всё теряет смысл , а с тобой всё становится гораздо проще. Проблемы не кажутся такими большими, конфликты не кажется такими важными , дела не кажется такими неподъемными, ответственность не кажется такой тяжелой ,кошмары не кажутся такими пугающими , пакеты становятся  легче, еда вкуснее , фильмы интереснее, покупки дешевле, а любовь становится с каждым разом вдвое больше.
+Я желаю нам любить друг друга все сильней. Хочу ,чтобы с каждым днём, мы слышали и слушали друг друга гораздо больше ,чем в  предыдущий день. Чтобы мы чувствовали друг друга. Чтобы мы чувствовали желание друг друга, скрытые потребности друг друга, эмоциональное состояние друг друга, чувствовали, когда нужно уступить в споре, а когда надавить ,чтобы другой раскрылся. Хочу, чтобы мы мотивировали друг друга идти вперёд и не останавливаться. Мотивировали на большие свершения и маленькие поступки. Хочу чтобы мы вместе могли создавать, придумывать ,играть, делать что-то вместе, начинать новое и  заканчивать старое. Я хочу ,чтобы мы друг друга очень и очень любили.
+Спасибо тебе ,за твоё терпение ,за все твои старания ,ради наших отношений ,за все твои тёплые слова, сказанные в мой адрес , и за все то ,что ты уже сделал или ещё только сделаешь ради меня.
+Сегодня день который изменил и твою и мою жизнь, в самую наилучшую сторону. И я благодарна всем событиям,  которые произошли для этого. Мне очень трудно на душе, что ты сейчас далеко. Я очень не хочу, чтобы этот день прошёл незамеченным. Так как это очень важный день в наших жизнях. Это наш собственный новый год. 
+Очень жду тебя домой.
+
+Твоя любимая Анюта.</div></article>
       <div class="env-pocket"></div>
       <div class="env-flap"></div>
       <div class="seal seal-pulse"><span>♥</span></div>
       <div class="stamp"><div><b>2</b><i>ГОДА</i></div></div>
       <div class="env-tag">открой меня</div>
     </div>
-    <div class="hint">нажми на печать</div>
-    <article class="letter unfold" id="letterFull">
-        <span class="tape"></span>
-        <p>Мы вместе два года, но ощущение что гораздо дольше. Эти два года самые счастливые в моей жизни, благодаря тебе. Я уже и не представляю свои дни без тебя. Без мысли о тебе, без встречи с тобой, без разговоров с тобой, без чувств к тебе. Ты мой самый любимый и самый дорогой человек. Без тебя всё теряет смысл, а с тобой всё становится гораздо проще. Проблемы не кажутся такими большими, конфликты не кажется такими важными, дела не кажется такими неподъемными, ответственность не кажется такой тяжелой, кошмары не кажутся такими пугающими, пакеты становятся легче, еда вкуснее, фильмы интереснее, покупки дешевле, а любовь становится с каждым разом вдвое больше.</p>
-        <p>Я желаю нам любить друг друга все сильней. Хочу, чтобы с каждым днём, мы слышали и слушали друг друга гораздо больше, чем в предыдущий день. Чтобы мы чувствовали друг друга. Чтобы мы чувствовали желание друг друга, скрытые потребности друг друга, эмоциональное состояние друг друга, чувствовали, когда нужно уступить в споре, а когда надавить, чтобы другой раскрылся. Хочу, чтобы мы мотивировали друг друга идти вперёд и не останавливаться. Мотивировали на большие свершения и маленькие поступки. Хочу чтобы мы вместе могли создавать, придумывать, играть, делать что-то вместе, начинать новое и заканчивать старое. Я хочу, чтобы мы друг друга очень и очень любили.</p>
-        <p>Спасибо тебе, за твоё терпение, за все твои старания, ради наших отношений, за все твои тёплые слова, сказанные в мой адрес, и за все то, что ты уже сделал или ещё только сделаешь ради меня.</p>
-        <p>Сегодня день который изменил и твою и мою жизнь, в самую наилучшую сторону. И я благодарна всем событиям, которые произошли для этого. Мне очень трудно на душе, что ты сейчас далеко. Я очень не хочу, чтобы этот день прошёл незамеченным. Так как это очень важный день в наших жизнях. Это наш собственный новый год.</p>
-        <p>Очень жду тебя домой.</p>
-        <p class="sign">Твоя любимая Анюта.</p>
-      </article>
+    <div class="hint">нажми на конверт</div>
     <div class="lace b"></div>
   </header>
 
@@ -227,13 +212,56 @@ if (new Date() < OPEN && !preview) {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.18});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+  const env = document.getElementById('env'), L = document.getElementById('letterFull'), cover = document.querySelector('.cover');
+  const PX = .07, PY = .08, PW = .86, PH = .84;          // где лежит лист внутри конверта
+  let s = 1, H = 0, V = 0;
+  const poly = h => `polygon(-30px -30px, calc(100% + 30px) -30px, calc(100% + 30px) ${h}px, -30px ${h}px)`;
+  const place = () => {                                  // письмо сложено внутри конверта
+    if (document.body.classList.contains('opened')) return;
+    const ew = env.offsetWidth, eh = env.offsetHeight;
+    const W = Math.min(380, cover.clientWidth - 44);
+    L.style.width = W + 'px';
+    s = ew * PW / W; H = L.offsetHeight; V = eh * PH / s;
+    L.style.left = ew * PX + 'px'; L.style.top = eh * PY + 'px';
+    L.style.transform = `translateY(0px) scale(${s})`;
+    L.style.clipPath = poly(V);
+  };
+  place(); window.addEventListener('resize', place);
+  if (document.fonts) document.fonts.ready.then(place);
+
   const open = () => {
     if (document.body.classList.contains('opened')) return;
     document.body.classList.add('opened');
     if (SONG) { const a = document.getElementById('song'); a.src = SONG; a.play().catch(()=>{}); }
-    setTimeout(() => document.getElementById('letterFull').scrollIntoView({behavior:'smooth', block:'start'}), 1150);
+    const eh = env.offsetHeight;
+    setTimeout(() => {                                   // лист выходит из конверта
+      L.style.transition = 'transform .9s cubic-bezier(.22,1,.36,1)';
+      L.style.transform = `translateY(${-eh * .5}px) scale(${s})`;
+    }, 380);
+    setTimeout(() => document.body.classList.add('lifted'), 1350);   // конверт тает
+    setTimeout(() => {                                   // лист разворачивается
+      const first = L.getBoundingClientRect();
+      env.parentNode.insertBefore(L, env);
+      env.style.display = 'none';
+      L.classList.add('flow');
+      L.style.left = L.style.top = ''; L.style.transition = 'none';
+      L.style.transform = 'none'; L.style.clipPath = 'none';
+      const last = L.getBoundingClientRect();
+      const k = first.width / last.width;
+      L.style.transform = `translate(${first.left - last.left}px, ${first.top - last.top}px) scale(${k})`;
+      L.style.clipPath = poly(V);
+      L.offsetHeight;
+      L.style.transition = 'transform 1s cubic-bezier(.22,1,.36,1), clip-path 1.5s cubic-bezier(.22,1,.36,1)';
+      L.style.transform = 'translate(0px, 0px) scale(1)';
+      L.style.clipPath = poly(L.offsetHeight + 60);
+      setTimeout(() => {
+        L.style.transition = ''; L.style.clipPath = 'none'; L.style.transform = 'none';
+        document.body.classList.add('read');
+        window.scrollTo({top: L.getBoundingClientRect().top + scrollY - 24, behavior: 'smooth'});
+      }, 1550);
+    }, 1900);
   };
-  document.getElementById('env').addEventListener('click', open);
+  env.addEventListener('click', open);
 
   const tick = () => {
     const s = Math.floor((new Date() - START)/1000);
